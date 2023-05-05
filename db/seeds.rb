@@ -7,30 +7,32 @@
 #   Character.create(name: "Luke", movie: movies.first)
 # db/seeds.rb
 # db/seeds.rb
-require 'open-uri'
 require 'faker'
+require 'open-uri'
 
-# Replace 1 with an existing user_id in your database
-user_id = 1
-
-10.times do |i|
+5.times do
   manga = Manga.create!(
     manga_title: Faker::Book.title,
     author: Faker::Book.author,
-    description: Faker::Lorem.paragraph_by_chars(number: 256, supplemental: false),
-    user_id: user_id
+    description: Faker::Lorem.paragraph,
+    user_id: 1 # Assuming a user with id 1 exists, change this to a valid user_id
   )
 
-  # Replace this URL with the URL of the cover image you want to use
-  cover_image_url = 'https://avt.mkklcdnv6temp.com/30/e/13-1583488820.jpg'
+  cover_image_url = Faker::LoremFlickr.image(size: "300x400", search_terms: ['manga', 'comic'])
+  cover_image_file = URI.open(cover_image_url)
+  manga.cover_image.attach(io: cover_image_file, filename: "cover_#{manga.id}.jpg", content_type: 'image/jpeg')
 
-  cover_image = URI.open(cover_image_url)
+  2.times do |i|
+    chapter = Chapter.create!(
+      chapter_title: Faker::Lorem.sentence,
+      chapter_number: i + 1,
+      manga_id: manga.id
+    )
 
-  manga.cover_image.attach(
-    io: cover_image,
-    filename: "manga_#{i + 1}_cover_image.jpg",
-    content_type: 'image/jpg'
-  )
+    # Read the sample PDF file from the lib/assets directory
+    pdf_file_path = Rails.root.join('lib', 'assets', 'sample_chapter.pdf')
+    pdf_file = File.open(pdf_file_path, 'rb')
+
+    chapter.pdf.attach(io: pdf_file, filename: "chapter_#{chapter.id}.pdf", content_type: 'application/pdf')
+  end
 end
-
-puts '10 mangas with cover images have been created using Faker.'

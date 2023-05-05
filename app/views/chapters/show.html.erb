@@ -1,0 +1,20 @@
+<p>
+  <strong>Chapter Number:</strong>
+  <%= @chapter.chapter_number %>
+</p>
+
+<p>
+  <strong>Chapter Title:</strong>
+  <%= @chapter.chapter_title %>
+</p>
+
+<p>
+  <strong>PDF Files:</strong>
+  <% @chapter.pdf_files.each do |pdf_file| %>
+    <%= link_to pdf_file.filename.to_s, rails_blob_path(pdf_file, disposition: "attachment") %><br>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_manga_chapter_path(@manga, @chapter) %> |
+<%= link_to 'Back', manga_chapters_path(@manga) %>
+<%= link_to 'Chapters', manga_chapters_path(@manga) %>
