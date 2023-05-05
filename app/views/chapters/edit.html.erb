@@ -1,0 +1,8 @@
+<!-- app/views/chapters/edit.html.erb -->
+
+<h1>Edit Chapter</h1>
+
+<%= render 'form', chapter: @chapter %>
+
+<%= link_to 'Show', [@manga, @chapter] %> |
+<%= link_to 'Back', manga_chapters_path(@manga) %>
