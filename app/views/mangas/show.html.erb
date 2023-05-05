@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Manga Title:</strong>
+  <%= @manga.manga_title %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @manga.author %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @manga.description %>
+</p>
+
+<% if @manga.cover_image.attached? %>
+  <%= cl_image_tag @manga.cover_image.key, alt: "Cover Image", class: "your-custom-css-class" %>
+<% else %>
+  <p>No cover image available</p>
+<% end %>
+
+<%= link_to 'Edit', edit_manga_path(@manga) %> |
+<%= link_to 'Back', mangas_path %>
