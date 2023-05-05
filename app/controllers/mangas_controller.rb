@@ -8,6 +8,8 @@ class MangasController < ApplicationController
 
   # GET /mangas/1
   def show
+    @manga = Manga.find(params[:id])
+    @chapters = @manga.chapters
   end
 
   # GET /mangas/new

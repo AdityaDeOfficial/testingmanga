@@ -27,6 +27,18 @@
       <%= @manga.description %>
     </p>
 
+    <div class="chapters">
+      <h2>Chapters</h2>
+      <ul>
+        <% @chapters.each do |chapter| %>
+          <li>
+            <%= "Chapter #{chapter.chapter_number}: #{chapter.chapter_title}" %>
+            <%= link_to "View PDF", url_for(chapter.pdf), target: "_blank" if chapter.pdf.attached? %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
     <div class="buttons">
       <%= link_to 'Edit', edit_manga_path(@manga), class: "button button-edit" %>
       <%= link_to 'Back', mangas_path, class: "button button-back" %>
